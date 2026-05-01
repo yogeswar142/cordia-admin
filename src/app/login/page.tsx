@@ -4,17 +4,33 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { loginAdmin } from "./actions";
 
 export default function LoginPage() {
   const [terminalId, setTerminalId] = useState("");
   const [passkey, setPasskey] = useState("");
   const [maintainConnection, setMaintainConnection] = useState(false);
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Hardcoded redirect to dashboard for now
-    router.push("/dashboard/admin");
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const result = await loginAdmin(terminalId, passkey);
+      if (result.success) {
+        router.push("/dashboard/admin");
+      } else {
+        setError(result.error || "Authentication failed");
+      }
+    } catch (err) {
+      setError("System connection error");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -58,6 +74,11 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleLogin} className="space-y-6">
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-md p-3 text-red-400 text-xs text-center font-bold tracking-wider uppercase">
+                {error}
+              </div>
+            )}
             {/* Terminal ID Input */}
             <div className="space-y-2">
               <label className="block text-slate-500 font-label-caps text-[10px] tracking-[0.15em] uppercase font-semibold">Terminal ID</label>
@@ -106,9 +127,10 @@ export default function LoginPage() {
             {/* Login Button */}
             <button 
               type="submit" 
-              className="w-full mt-8 py-3.5 rounded-md bg-gradient-to-r from-indigo-500 to-[#5b63f5] text-white font-bold text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all active:scale-[0.98]"
+              disabled={isLoading}
+              className={`w-full mt-8 py-3.5 rounded-md bg-gradient-to-r from-indigo-500 to-[#5b63f5] text-white font-bold text-[11px] tracking-[0.2em] uppercase shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] transition-all active:scale-[0.98] ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              Initialize Session
+              {isLoading ? "Synchronizing..." : "Initialize Session"}
             </button>
 
             {/* Divider */}

@@ -23,12 +23,9 @@ export default function BotManager() {
                 title="Impersonate Owner"
                 className="p-1.5 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-indigo-400 transition-colors"
                 onClick={async () => {
-                  const res = await fetch('https://api.cordialane.com/api/v1/admin/impersonate', {
+                  const res = await fetch('/api/admin/impersonate', {
                     method: 'POST',
-                    headers: { 
-                      'Content-Type': 'application/json',
-                      'Authorization': 'Bearer cordia_local_dev_key'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ botId: 'Aeon-Alpha' })
                   });
                   const data = await res.json();
@@ -145,12 +142,9 @@ export default function BotManager() {
                 title="Impersonate Owner"
                 className="p-1.5 rounded bg-white/5 hover:bg-white/10 text-slate-400 hover:text-indigo-400 transition-colors"
                 onClick={async () => {
-                  const res = await fetch('https://api.cordialane.com/api/v1/admin/impersonate', {
+                  const res = await fetch('/api/admin/impersonate', {
                     method: 'POST',
-                    headers: { 
-                      'Content-Type': 'application/json',
-                      'Authorization': 'Bearer cordia_local_dev_key'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ botId: 'Aeon-Alpha' })
                   });
                   const data = await res.json();

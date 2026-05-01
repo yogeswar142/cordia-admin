@@ -8,11 +8,10 @@ export default function AnnouncementComposer() {
   const handlePublish = async () => {
     setIsPublishing(true);
     try {
-      const res = await fetch('https://api.cordialane.com/api/v1/admin/news', {
+      const res = await fetch('/api/admin/news', {
         method: 'POST',
         headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer cordia_local_dev_key'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
           title, 

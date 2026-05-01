@@ -6,9 +6,7 @@ export default function ModerationHub() {
   useEffect(() => {
     const fetchLimits = async () => {
       try {
-        const res = await fetch('https://api.cordialane.com/api/v1/admin/pulse', {
-          headers: { 'Authorization': 'Bearer cordia_local_dev_key' }
-        });
+        const res = await fetch('/api/admin/pulse');
         const data = await res.json();
         if (data.success) {
           setRateLimits(data.data.rateLimits.heatmap || {});

@@ -15,12 +15,8 @@ export default function AdminDashboardClient() {
     const fetchAdminData = async () => {
       try {
         const [pulseRes, insightsRes] = await Promise.all([
-          fetch('https://api.cordialane.com/api/v1/admin/pulse', {
-            headers: { 'Authorization': 'Bearer cordia_local_dev_key' }
-          }),
-          fetch('https://api.cordialane.com/api/v1/admin/insights', {
-            headers: { 'Authorization': 'Bearer cordia_local_dev_key' }
-          })
+          fetch('/api/admin/pulse'),
+          fetch('/api/admin/insights')
         ]);
         
         const pulseData = await pulseRes.json();
@@ -49,7 +45,7 @@ export default function AdminDashboardClient() {
           <span className="material-symbols-outlined">warning</span>
           <div className="flex-1">
             <p className="font-bold text-sm">ANOMALY DETECTED</p>
-            <p className="text-xs opacity-80">{insights.anomalies.length} bots are reporting "Impossible Growth" patterns (e.g. >5k events/hr).</p>
+            <p className="text-xs opacity-80">{insights.anomalies.length} bots are reporting "Impossible Growth" patterns (e.g. &gt;5k events/hr).</p>
           </div>
           <button className="px-4 py-2 bg-error/20 rounded text-[10px] font-bold uppercase tracking-widest hover:bg-error/30 transition-colors">Review Anomalies</button>
         </motion.div>
