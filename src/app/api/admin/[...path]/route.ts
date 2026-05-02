@@ -5,12 +5,14 @@ import { cookies } from 'next/headers';
  * Proxy route for admin API calls.
  * Forwards requests to Cordia-API and adds the master key from the server session.
  */
-export async function GET(req: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxy(req, params.path);
+export async function GET(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  const resolvedParams = await params;
+  return handleProxy(req, resolvedParams.path);
 }
 
-export async function POST(req: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxy(req, params.path);
+export async function POST(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  const resolvedParams = await params;
+  return handleProxy(req, resolvedParams.path);
 }
 
 async function handleProxy(req: NextRequest, path: string[]) {
